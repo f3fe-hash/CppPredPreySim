@@ -97,7 +97,7 @@ void NeuralNetwork::backprop(const dataset_t* dset) noexcept
             const num_arr output = this->forward(&X[batch][i]);
 
             if (i == 0)
-                delta[L].assign(output.size(), (num)0.0); // Safe initialization for accumulation
+                delta[L].assign(output.size(), zero); // Safe initialization for accumulation
 
 #ifdef DEBUG
             if (__builtin_expect(L >= delta.size(), 0))

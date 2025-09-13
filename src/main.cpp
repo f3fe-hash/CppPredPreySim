@@ -2,49 +2,15 @@
 #include <iomanip>
 
 #include "ai/nn.hpp"
+#include "sim/defs.hpp"
 
-int main()
+int main(int argc, char** argv)
 {
-    const vec<num_arr> X =
-    {
-        {0, 0},
-        {1, 0},
-        {0, 1},
-        {1, 1},
-    };
-
-    const vec<num_arr> y =
-    {
-        {0},
-        {1},
-        {1},
-        {0},
-    };
-
-    dataset_t set;
-    set.X = X;
-    set.y = y;
-    set.size = X.size();
-
-    NeuralNetwork nn = NeuralNetwork({2, 10, 1});
-
-    for (std::size_t i = 0; i < 100'000; ++i)
-        nn.backprop(&set);
-
-    // Print the output
-    for (std::size_t i = 0; i < set.size; i++)
-    {
-        const num_arr y = nn.forward(&X[i]);
-
-        std::cout << "{";
-        for (std::size_t j = 0; j < y.size(); ++j)
-        {
-            std::cout << std::fixed << std::setprecision(2) << (double)y[j];
-            if (j != y.size() - 1)
-                std::cout << ", ";
-        }
-        std::cout << "};" << std::endl;
-    }
+    (void) argc;
+    (void) argv;
+    
+    NeuralNetwork predNN = NeuralNetwork(PRED_NET);
+    NeuralNetwork preyNN = NeuralNetwork(PREY_NET);
 
     return 0;
 }

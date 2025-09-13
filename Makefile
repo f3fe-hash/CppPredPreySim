@@ -17,7 +17,7 @@ SRC_DIR     := src
 INCLUDE_DIR := include
 BUILD_DIR   := build
 
-TARGET := $(BUILD_DIR)/sim
+TARGET := $(BUILD_DIR)/PredPreySim
 
 SRC := $(shell find $(SRC_DIR) -name '*.cpp')
 OBJ := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.cpp.o,$(SRC))
@@ -55,6 +55,7 @@ clean:
 run:
 	@printf "$(YELLOW)  RUN    Running executable $(TARGET)\n$(RESET)"
 	@./$(TARGET)
+	@printf "$(YELLOW)  RUN    Done running executable $(TARGET)\n$(RESET)"
 
 size:
 	@wc -c $(TARGET)
