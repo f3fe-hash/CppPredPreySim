@@ -13,7 +13,7 @@ class Prey
     vec<num_arr> mots;
     vec<num_arr> rayHits;
 public:
-    Prey(std::shared_ptr<NeuralNetwork> nn);
+    explicit Prey(std::shared_ptr<NeuralNetwork> nn);
     ~Prey() = default;
 
     _nonnull(1)

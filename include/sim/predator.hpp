@@ -13,7 +13,7 @@ class Predator
     vec<num_arr> mots;
     vec<num_arr> rayHits;
 public:
-    Predator(std::shared_ptr<NeuralNetwork> nn);
+    explicit Predator(std::shared_ptr<NeuralNetwork> nn);
     ~Predator() = default;
 
     _nonnull(1)

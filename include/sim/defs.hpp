@@ -59,6 +59,10 @@ enum RayHitType
 #define PREY_RAY_SAMPLE_NUM  20
 #define PREY_BPROP_UPD_DEATH 10 // Number of backpropagation updates to do upon death of a prey
 
+// Number of prey and predators
+#define NUM_PREDS 10
+#define NUM_PREY  50
+
 // Motion multipliers
 #define X_MOTION_MULT 5
 #define Y_MOTION_MULT 5
