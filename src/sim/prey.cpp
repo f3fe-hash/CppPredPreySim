@@ -1,29 +1,28 @@
-#include "sim/predator.hpp"
+#include "sim/prey.hpp"
 
-Predator::Predator(std::shared_ptr<NeuralNetwork> nn)
+Prey::Prey(std::shared_ptr<NeuralNetwork> nn)
 {
     this->nn = nn;
 }
 
-// Update the predator, and get a relative motion direction
-mot2 Predator::update(const vec<RayHitType>* __restrict__ rayHits) noexcept
+mot2 Prey::update(const vec<RayHitType>* __restrict__ rayHits) noexcept
 {
     // Scale the input to [0, 1]
     num_arr in(rayHits->size(), zero);
-    for (auto& rayHit : *rayHits)
+    for (auto rayHit : *rayHits)
         in.push_back(rayHit / MAX_RAY_HIT_NUM);
     this->rayHits.push_back(in);
     
     mot2 mot;
     num_arr out = this->nn->forward(&in);
     mots.push_back(out);
-    mot.x = (int)(out[0] * (num)X_MOTION_MULT);
-    mot.y = (int)(out[1] * (num)Y_MOTION_MULT);
+    mot.x = out[0] * X_MOTION_MULT;
+    mot.y = out[1] * Y_MOTION_MULT;
 
     return mot;
 }
 
-void Predator::onDeath() noexcept
+void Prey::onDeath() noexcept
 {
     // Add the first half of moves to the dataset
     dataset_t dset;
@@ -32,9 +31,9 @@ void Predator::onDeath() noexcept
     for (std::size_t i = 0; i < (std::size_t)(this->rayHits.size() / 2) + 1; ++i)
     {
         dset.X.push_back(this->rayHits[i]);
-        dset.X.push_back(this->rayHits[i]);
+        dset.y.push_back(this->mots[i]);
     }
 
-    for (std::size_t i = 0; i < PRED_BPROP_UPD_DEATH; ++i)
-        this->nn->backprop(&dset);
+    for (std::size_t i = 0; i < PREY_BPROP_UPD_DEATH; ++i)
+        nn->backprop(&dset);
 }

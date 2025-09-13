@@ -5,8 +5,6 @@
 using num     = float;
 using num_arr = std::vector<num>;
 
-using score = double;
-
 template<typename T>
 using vec = std::vector<T>;
 

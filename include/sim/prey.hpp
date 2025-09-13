@@ -6,15 +6,15 @@
 #include "ai/nn.hpp"
 #include "sim/defs.hpp"
 
-class Predator
+class Prey
 {
     std::shared_ptr<NeuralNetwork> nn;
 
     vec<num_arr> mots;
     vec<num_arr> rayHits;
 public:
-    Predator(std::shared_ptr<NeuralNetwork> nn);
-    ~Predator() = default;
+    Prey(std::shared_ptr<NeuralNetwork> nn);
+    ~Prey() = default;
 
     _nonnull(1)
     mot2 update(const vec<RayHitType>* __restrict__ rayHits) noexcept;

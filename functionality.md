@@ -14,3 +14,10 @@ PreyNN
 The prey's neural network is the same as the predator's neural network. But here, the
 rays are cast 10 degrees apart from each other, making the prey have a 200 degree vision
 range. But, it only gets to look 75px far.
+
+OpenGL
+------
+
+Most of the OpenGL code is in src/main.cpp, src/sim/gl.cpp, and include/sim/gl.hpp. The
+GLContext class contains the OpenGL context for drawing shapes, updating the screen,
+and other OpenGL / graphics related routines.

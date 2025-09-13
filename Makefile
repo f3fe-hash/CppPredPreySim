@@ -3,6 +3,7 @@ CXX := g++
 WARN     := -Wall -Wextra -Wpedantic
 OPTS     := -O3 -funroll-loops -Os
 CXXFLAGS := $(WARN) $(OPTS) -std=c++17
+LIBS     := -lGL -lGLU -lglut
 
 ifeq ($(gpu),1)
 	GPU := -DUSE_CUDA
@@ -33,7 +34,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJ)
 	@printf "$(BLUE)  LD     Linking $@\n$(RESET)"
-	@$(CXX) $(CXXFLAGS) $(OBJ) -o $(TARGET) $(GPU_LIBS)
+	@$(CXX) $(CXXFLAGS) $(OBJ) -o $(TARGET) $(LIBS) $(GPU_LIBS)
 ifeq ($(gpu),1)
 	@printf "$(YELLOW)  WARN   Warning: Using CUDA GPU\n"
 endif
@@ -58,4 +59,4 @@ run:
 	@printf "$(YELLOW)  RUN    Done running executable $(TARGET)\n$(RESET)"
 
 size:
-	@wc -c $(TARGET)
+	@wc -c < $(TARGET) | awk '{printf "%.2f MB\n", $$1 / 1000000}'
