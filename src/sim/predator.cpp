@@ -2,9 +2,6 @@
 
 Predator::Predator(std::shared_ptr<NeuralNetwork> nn) noexcept
 {
-#ifdef DEBUG
-    assert(nn != nullptr);
-#endif
     this->nn = nn;
 }
 
@@ -14,7 +11,7 @@ mot2 Predator::update(const vec<RayHitType>* __restrict__ rayHits) noexcept
     num_arr in;
     in.reserve(PRED_RAY_SAMPLE_NUM);
     std::transform(rayHits->begin(), rayHits->end(), std::back_inserter(in),
-        [](RayHitType r) { return r / MAX_RAY_HIT_NUM; });
+        [](RayHitType r) {return (num)r / (num)MAX_RAY_HIT_NUM;});
 
     this->rayHits.push_back(in);
     

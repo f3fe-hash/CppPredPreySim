@@ -4,15 +4,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#include "sim/defs.hpp"
-
-struct Object
-{
-    dim2 centerPos;
-    RayHitType type;
-
-    int id;
-};
+#include "utils/defs.hpp"
 
 // Center point & type of object
 inline vec<Object> objects;

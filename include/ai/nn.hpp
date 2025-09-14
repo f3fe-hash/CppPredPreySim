@@ -6,8 +6,8 @@
 #include <iterator>
 #include <iostream>
 
-#include "ai/utils/defs.hpp"
-#include "ai/math/math.hpp"
+#include "utils/defs.hpp"
+#include "math/math.hpp"
 
 class NeuralNetwork
 {

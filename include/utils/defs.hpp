@@ -1,10 +1,18 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <cstdarg>
 
+#ifdef DEBUG
+#include <cassert>
+#endif
+
+#define _debug(x) std::cout << "[DEBUG] " << x << std::endl;
+
 #define _wur    __attribute__((warn_unused_result))
 #define _pure   __attribute__((pure))
+#define _const  __attribute__((const))
 #define _unused __attribute__((unused))
 
 #define _nonnull(...) __attribute__((nonnull (__VA_ARGS__)))
@@ -13,9 +21,25 @@
  * Type definitions.
  * ----------------------- */
 
- // Vector
 template<typename T>
 using vec = std::vector<T>;
+
+template<typename T>
+using vec2D = std::vector<std::vector<T>>;
+
+using num       = float;
+using num_arr   = vec<num>;
+using num_arr2D = vec<num_arr>;
+
+using score = double;
+
+// Type of object the ray hit
+enum RayHitType
+{
+    NONE = 0,
+    PRED = 1,
+    PREY = 2
+};
 
 // Dimenions
 struct dim2
@@ -29,12 +53,37 @@ struct mot2
     std::size_t x, y;
 };
 
-// Type of object the ray hit
-enum RayHitType
+// Object
+struct Object
 {
-    NONE = 0,
-    PRED = 1,
-    PREY = 2
+    dim2 centerPos;
+    RayHitType type;
+
+    int id;
+};
+
+struct dim2D
+{
+    std::size_t x;
+    std::size_t y;
+};
+
+struct dataset_t
+{
+    vec<num_arr> X;
+    vec<num_arr> y;
+
+    std::size_t size;
+};
+
+struct dataset2D_t
+{
+    vec<num_arr2D> X;
+    vec<num_arr2D> y;
+
+    std::pair<std::size_t, std::size_t> dims;
+
+    std::size_t size;
 };
 
 /* -----------------------
@@ -73,3 +122,5 @@ const dim2 SIM_WINDOW_SIZE = {800, 600};
 // Predator neural network
 const vec<std::size_t> PRED_NET{PRED_RAY_SAMPLE_NUM, 10, 2};
 const vec<std::size_t> PREY_NET{PREY_RAY_SAMPLE_NUM, 10, 2};
+
+constexpr const num zero = (num)0.00;

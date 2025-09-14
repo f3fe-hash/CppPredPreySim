@@ -5,7 +5,7 @@
 
 #include <cuda_runtime.h>
 
-#include "ai/utils/defs.hpp"
+#include "utils/defs.hpp"
 
 // CUDA kernel for mult_add partial sums (dot product + add scalar)
 __global__ void mult_add_kernel(const num* a, const num* b, num c, std::size_t n, num* result)

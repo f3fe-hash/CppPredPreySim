@@ -6,7 +6,7 @@
 #include <cmath> // For abs
 
 #include "ai/nn.hpp"
-#include "sim/defs.hpp"
+#include "utils/defs.hpp"
 
 class Predator
 {
