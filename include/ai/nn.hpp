@@ -9,23 +9,12 @@
 #include "ai/utils/defs.hpp"
 #include "ai/math/math.hpp"
 
-#define DEBUG
-
-struct dataset_t
-{
-    vec<num_arr> X;
-    vec<num_arr> y;
-
-    std::size_t size;
-};
-
 class NeuralNetwork
 {
-    num_arr deltax, deltay;
-    vec<num_arr> delta;
-    vec<num_arr> layer_outputs;
-    vec<num_arr> biases;
-    vec<vec<num_arr>> weights;
+    num_arr2D delta;
+    num_arr2D layer_outputs;
+    num_arr2D biases;
+    vec<num_arr2D> weights;
 
     vec<std::size_t> layer_sizes;
 

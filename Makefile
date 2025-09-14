@@ -1,8 +1,14 @@
 CXX := g++
 
+ifeq ($(debug),1)
+	DEBUG := -DDEBUG
+	OPTS := -O0 -g
+else
+	OPTS := -O3 -funroll-loops -Os
+endif
+
 WARN     := -Wall -Wextra -Wpedantic
-OPTS     := -O3 -funroll-loops -Os
-CXXFLAGS := $(WARN) $(OPTS) -std=c++17
+CXXFLAGS := $(WARN) $(OPTS) $(DEBUG) -std=c++17
 LIBS     := -lGL -lGLU -lglut
 
 ifeq ($(gpu),1)
@@ -41,6 +47,9 @@ endif
 ifeq ($(gpu),2)
 	@printf "$(YELLOW)  WARN   Warning: Using Intel/AMD GPU\n"
 endif
+ifeq ($(debug),1)
+	@printf "$(YELLOW)  WARN   Warning: Compiling in DEBUG MODE\n"
+endif
 
 $(BUILD_DIR)/%.cpp.o: $(SRC_DIR)/%.cpp | $(DIR)
 	@printf "$(GREEN)  CXX    Building object $@\n$(RESET)"
@@ -55,8 +64,12 @@ clean:
 
 run:
 	@printf "$(YELLOW)  RUN    Running executable $(TARGET)\n$(RESET)"
+ifeq ($(debug),1)
+	@gdb $(TARGET)
+else
 	@./$(TARGET)
+endif
 	@printf "$(YELLOW)  RUN    Done running executable $(TARGET)\n$(RESET)"
 
 size:
-	@wc -c < $(TARGET) | awk '{printf "%.2f MB\n", $$1 / 1000000}'
+	@wc -c < $(TARGET) | awk '{printf "%.2f KB\n", $$1 / 1000}'

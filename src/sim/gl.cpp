@@ -10,7 +10,7 @@ GLContext::GLContext(int argc, char** argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(SIM_WINDOW_SIZE.x, SIM_WINDOW_SIZE.y);
-    this->window = glutCreateWindow("AI Pred vs. Prey SImulation");
+    this->window = glutCreateWindow("AI Pred vs. Prey Simulation");
 
     this->init();
 
@@ -24,8 +24,12 @@ void GLContext::init()
 // Drawing code goes here
 void GLContext::display()
 {
-    // update() is an update for AIs, and other non-graphics tasks (ex. changing object positions)
+    // update() is an update for other non-graphics tasks (ex. AIs, changing object positions)
+    // update() should be called first, over graphics functions, because otherwise, the simulation
+    // will be 1 frame ahead of what is shown 
     update();
+
+    // Swap buffs
     glutSwapBuffers();
 }
 

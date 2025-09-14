@@ -6,7 +6,16 @@
 
 #include "sim/defs.hpp"
 
-void update();
+struct Object
+{
+    dim2 centerPos;
+    RayHitType type;
+
+    int id;
+};
+
+// Center point & type of object
+inline vec<Object> objects;
 
 class GLContext
 {
@@ -19,9 +28,11 @@ class GLContext
 
     void init();
 
+    // Wrapper function for display
     static inline void _display_wrapper()
     {__inst->display();}
 
+    // Wrapper function for reshape
     static inline void _reshape_wrapper(int x, int y)
     {__inst->reshape(x, y);}
 
@@ -34,3 +45,5 @@ public:
         glutMainLoop();
     }
 };
+
+void update() noexcept;

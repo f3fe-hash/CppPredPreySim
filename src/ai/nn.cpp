@@ -33,32 +33,28 @@ NeuralNetwork::NeuralNetwork(vec<std::size_t> layer_sizes) noexcept
 
 num_arr NeuralNetwork::forward(const num_arr* input) noexcept
 {
-    this->deltax = *input;
-
     this->layer_outputs.clear();
-    this->layer_outputs.push_back(this->deltax); // Save input layer activations
+    this->layer_outputs.resize(this->layer_sizes.size());
+    this->layer_outputs[0] = *input;
 
     for (std::size_t layer = 1; layer < layer_sizes.size(); ++layer)
     {
         std::size_t num_neurons = layer_sizes[layer];
-        this->deltay.resize(num_neurons);
+        this->layer_outputs[layer].resize(num_neurons);
 
         for (std::size_t neuron = 0; neuron < num_neurons; ++neuron)
-            this->deltay[neuron] = mult_add(deltax, weights[layer][neuron], biases[layer][neuron], deltax.size());
+            this->layer_outputs[layer][neuron] = mult_add(this->layer_outputs[layer - 1],
+                weights[layer][neuron],
+                biases[layer][neuron],
+                this->layer_sizes[layer - 1]);
 
         // Apply activation function
-        this->deltay = activation(this->deltay, this->deltay.size());
-        this->deltax.swap(this->deltay);
-
-        // Save current layer output
-        this->layer_outputs.push_back(this->deltax);
+        this->layer_outputs[layer] = activation(this->layer_outputs[layer], this->layer_sizes[layer]);
     }
 
-    return this->deltax;
+    return this->layer_outputs[this->layer_sizes.size() - 1];
 }
 
-// Warning: size IS NOT THE AMOUNT OF EPOCHS TO RUN. Instead it is the number of dataset values to do at a time.
-// If greater than the total size of the dataset, will default to the total size
 void NeuralNetwork::backprop(const dataset_t* dset) noexcept
 {
 #ifdef DEBUG
@@ -76,7 +72,7 @@ void NeuralNetwork::backprop(const dataset_t* dset) noexcept
 
     const std::size_t num_batches = (dset->size + this->batch_size - 1) / this->batch_size;
 
-    vec<vec<num_arr>> X(num_batches), y(num_batches);
+    vec<num_arr2D> X(num_batches), y(num_batches);
 
     // Split data into batches
     for (std::size_t i = 0; i < dset->size; i += this->batch_size)
